@@ -198,14 +198,14 @@ $y = C(x+1)e^{-x}; \quad x=-1 $
     \[z-2\ln{|z+2|} = x + C\]
     
     Производим обратную замену:
-    \[x + 2y - 2\ln{|2x+y+2|} =x + \tilde{C}\]
-    \[y - \ln{|2x+y+2|} =\tilde{\tilde{C}}\]
-    \[2x+y+2 = \hat{C}e^y\]
+    \[x + 2y - 2\ln{|x+2y+2|} =x + \tilde{C}\]
+    \[y - \ln{|x+2y+2|} =\tilde{\tilde{C}}\]
+    \[x+2y+2 = \hat{C}e^y\]
     
     Проверяем является ли $z = 2x+y = -2$ решением, ответ - да, но оно входит в одно из решений нашего уравнения при $\hat{C} = 0$, поэтому записывать его отдельно не имеет смысла.
 \end{example}
 \begin{answer}
-$2x+y+2 = Ce^y$
+$x+2y+2 = Ce^y$
 \end{answer}
 \begin{remark}
     На самом деле необязательно писать везде изменение $C$(но это не точно), поэтому в дальнейшем этого делать не будем.
@@ -812,4 +812,819 @@ $2x+y+2 = Ce^y$
 \end{itemize}
 
 \end{document}
+ \documentclass[a4paper, 14pt]{article}
+
+\usepackage[T2A]{fontenc} 
+\usepackage[english, russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{indentfirst}
+
+% Отступы от краев страницы
+\usepackage[left=2cm,right=1.5cm,top=2cm,bottom=2cm]{geometry}
+
+% Корректная работа с кириллицей (чтобы работал Ctrl+F)
+\usepackage{cmap}
+
+% Картинки и графики
+\usepackage{graphicx}
+\usepackage{tikz}
+
+% Работа с таблицами
+\usepackage{booktabs}
+
+% Для удобства
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\renewcommand{\C}{\mathbb{C}}
+
+%новое для ду
+\newcommand{\dx}{\mathrm{d}x}
+\newcommand{\dy}{\mathrm{d}y}
+\newcommand{\dv}[2]{%
+  \ifstrempty{#2}%
+    {\mathrm{d}#1}%                  % просто дифференциал
+    {\frac{\mathrm{d}#1}{\mathrm{d}#2}}% % производная
+}
+\newcommand{\pdv}[2]{\frac{\partial #1}{\partial #2}}
+
+% Красивые phi, epsilon и пустое множетсво
+\renewcommand{\phi}{\varphi}
+\renewcommand{\epsilon}{\varepsilon}
+\renewcommand{\emptyset}{\varnothing}
+
+% Математические окружения
+\theoremstyle{definition}
+\newtheorem*{definition}{Определение}
+\newtheorem*{theorem}{Теорема}
+\newtheorem*{consequence}{Следствие}
+\newtheorem*{lemma}{Лемма}
+\newtheorem*{remark}{Замечание}
+\newtheorem*{statement}{Утверждение}
+\newtheorem*{example}{Пример}
+
+%Для ответов
+\newenvironment{answer}
+  {\par\noindent\textbf{Ответ:}}
+  {\par}
+
+% Настройка заголовков
+\usepackage{titlesec}
+\titleformat{\section}{\centering\LARGE \bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\Large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\large\bfseries}{\thesubsubsection}{1em}{}
+
+% Настройка гиперссылок
+\usepackage{hyperref}
+\usepackage{xcolor}
+\definecolor{linkcolor}{HTML}{225ae2}
+\definecolor{urlcolor}{HTML}{225ae2}
+\hypersetup{
+    pdfstartview=FitH, 
+    linkcolor=linkcolor,
+    urlcolor=urlcolor,
+    colorlinks=true
+}
+
+\setlength{\parindent}{20pt}
+\setcounter{secnumdepth}{-1}
+\begin{document}
+
+\section{<<Дифференциальные уравнения>>}
+
+\subsection{Составление дифференциальных уравнений семейства линий}
+
+Задача состоит в том, что нужно исключить константу, путём дифференциирования, то есть:
+
+\begin{itemize}
+\item \textbf{} Дифференцируем исходное уравнение
+\item \textbf{} Выражаем параметр $C$
+\item \textbf{} Подставляем $C$ в производную
+\item \textbf{} Упрощаем полученное уравнение
+\end{itemize}
+
+\begin{example}
+
+\[y = e^{Cx}\]
+
+\[y' =\, C e^{Cx} \Longrightarrow C = \frac{1}{x}\ln{y}\]
+
+\[y' =\,\frac{1}{x}\ln{y} \cdot e^{\ln{y}}\]
+
+\[y' =\,\frac{y}{x}\ln{y}\]
+\end{example}
+\begin{answer}
+$y' =\frac{y}{x}\ln{y}$
+\end{answer} 
+
+\medskip
+
+Для составления уравнений изогональных траекторий (пересекающих линии данного семейства под углом $\phi$) надо:
+
+\begin{itemize}
+\item \textbf{} Составить дифференциальное уравнение семейства линий.
+\item \textbf{} Воспользоваться соотношением $\beta - \alpha = \pm \phi$(кроме случая $\phi = 90^{\circ}$, в этом случае пользуемся следующим равенством $y' = -\frac{1}{\tilde{y}'}$), где \\
+$y'$ - уравнение семейства кривых\\
+$\tilde{y}'$ - уравнение изогональных траекторий
+\item \textbf{} Воспользоваться формулой $\pm tg{ \,\phi} = tg{(\beta - \alpha)} = \frac{tg{\beta} - tg{\alpha}}{1 + tg{\beta}\cdot tg{\alpha}}$, подставляя \\
+$tg{\alpha} = y'$ (подствляем уравнение семейства кривых, выраженное через $x$ и $y$)\\
+$tg{\beta} = \tilde{y}'$
+\item \textbf{}Выражаем $\tilde{y}'$ и получаем ответ.
+\end{itemize}
+
+\begin{example}
+
+\[x^2 +\,y^2 = a^2, \quad \phi = 45^{\circ}\]
+
+\[2x + 2yy' = 0\]
+\[y' = -\frac{x}{y} = tg{\alpha}\]
+\[tg{(\beta - \alpha)} = \frac{tg{\beta} - tg{\alpha}}{1 + tg{\beta}\cdot tg{\alpha}} = \frac{\tilde{y}' + \frac{x}{y}}{1-\frac{x\tilde{y}'}{y}}= \pm 1\]
+
+
+\[\tilde{y}' + \frac{x}{y} = 1-\frac{x\tilde{y}'}{y}\]
+\[\tilde{y}' + \frac{x\tilde{y}'}{y} = 1 - \frac{x}{y}\]
+\[\tilde{y}'(1 + \frac{x}{y}) = 1 - \frac{x}{y}\]
+\[\tilde{y}' = \frac{1 - \frac{x}{y}}{1 + \frac{x}{y}}\] 
+\[\tilde{y}' = \frac{y-x}{y+x}\]
+\[(x+y)y' =\,y - x\]
+
+и соответственно(при равенстве -1) 
+
+\[\tilde{y}' = \frac{1 + \frac{x}{y}}{\frac{x}{y} - 1}\]
+\[\tilde{y}' = \frac{y+x}{x-y}\]
+\[(x-y)y' =\,x+y\]
+\end{example}
+\begin{answer}
+$(x+y)y' =\,y - x; \quad (x-y)y' =\,x + y$\\
+(На самом деле после тангенса разности можно было писать вместо $\tilde{y}'$ просто $y'$, ибо обе кривые проходят через одну точку)
+\end{answer} 
+
+\subsection{Уравнения с разделяющимися переменными}
+
+Это уравнения вида $y' = f(x)g(y)$ или $P(x, y)\dx + Q(x, y)\dy = 0$
+\medskip
+
+Для их решения надо:
+\begin{itemize}
+\item \textbf{}Разделить(или умножить) уравнения так, чтобы в одной стороне был только $x$, а в другой - только $y$.
+\item \textbf{}Проверить, что при делении мы не потеряли решение(когда делитель$=0$).
+\item \textbf{}Проинтегрировать обе стороны.
+\item \textbf{}Преобразовать до красивого ответа.
+\end{itemize}
+\begin{example}
+Решить уравнение $xy\dx+(x+1)dy=0$
+\[xy\dx+(x+1)dy=0\]
+\[(x+1)dy = -xy\dx\]
+\[\frac{\dy}{y} = - \frac{x}{x+1}\dx\] 
+
+Также не забывам про $x=-1$, который является решением.
+\[\int \frac{\dy}{y} = - \int \frac{x}{x+1}\dx\]
+\[\ln{\,|y|} = -x + \ln{\,|x+1| + C}\]
+\[|y| = e^{-x + \ln{\,|x+1| + C}}\]
+\[y = \tilde{C}(x+1)e^{-x}\]
+\end{example}
+
+\begin{answer}
+$y = C(x+1)e^{-x}; \quad x=-1 $
+\end{answer}
+
+\subsubsection{Полезная замена}
+Если уравнение имеет вид $y' = f(ax+by)$, то сделаем замену $z = ax+by$ или $z = ax+by+c$, где $c$ любое.
+\begin{example}
+    Решить уравненние $(x+2y)y'=1$
+    
+    Замена: $z = x+2y$
+    
+    Тогда \[z'=1+2y' \Longrightarrow y'=\frac{z'-1}{2}\]
+    
+    Подставим в наше исходное уравнение:
+    \[z(z'-1)=2\]
+    \[z \cdot \dv{z}{x} - z = 2\]
+    \[z\dv{z}{} = (2+z)\dx\]
+    \[\int{\frac{z}{z+2} \dv{z}{}} = \int{\dx}\]
+    
+    Надо не забыть потом проверить является ди $z = -2$ решением.
+    \[z-2\ln{|z+2|} = x + C\]
+    
+    Производим обратную замену:
+    \[x + 2y - 2\ln{|x+2y+2|} =x + \tilde{C}\]
+    \[y - \ln{|x+2y+2|} =\tilde{\tilde{C}}\]
+    \[x+2y+2 = \hat{C}e^y\]
+    
+    Проверяем является ли $z = 2x+y = -2$ решением, ответ - да, но оно входит в одно из решений нашего уравнения при $\hat{C} = 0$, поэтому записывать его отдельно не имеет смысла.
+\end{example}
+\begin{answer}
+$x+2y+2 = Ce^y$
+\end{answer}
+\begin{remark}
+    На самом деле необязательно писать везде изменение $C$(но это не точно), поэтому в дальнейшем этого делать не будем.
+\end{remark}
+\newpage
+\subsection{Геометричечкие задачи}
+
+Чтобы решaть геометрические задачи, надо:
+\begin{itemize}
+\item \textbf{}Построить чертеж.
+\item \textbf{}Обозначить искомую кривую через $y = y(x)$ (если задача решается в прямоугольных координатах).
+\item \textbf{}Выразить все упоминаемые в задаче величины через $x$, $y$ и $y'$.
+\item \textbf{}Применить данное в условии задачи соотношение, которое превращается в дифференциальное уравнение, уже из которого можно найти искомую функцию $y(x)$.
+\end{itemize}
+\begin{remark}
+    На этом всё, дальше только смекалочка ;)\\
+    Ну может потом тут появится пример с рисунком  
+\end{remark}
+\subsection{Физические задачи}
+Для их решения необходимо:
+\begin{itemize}
+\item \textbf{}Решить какую из величин взять за независимую переменную, а какую - за искомую функцию.
+\item \textbf{}Выразить на сколько изменится искомая функция $y$, за приращение независимой переменной $x$ на $\Delta{x}$, те получить:
+\[y(x+\Delta{x})-y(x) = \text{выражение из других величин из задачи}\]
+\item \textbf{}Поделить всё выражение на $\Delta{x}$ и перейти к пределу при $\Delta{x}\rightarrow0$, те получим $y'$ слева\\ и дифференциальное уравнение в целом.
+\item \textbf{}Из условия задачи, решая уравнение, находим оставшиеся величины и подставляем их в исходное дифференциальное уравнение.
+\end{itemize}
+\begin{remark}
+    Иногда дифференциальное уравнение можно составить простым путём, воспользовавшись физическим смыслом производной($\dv{v}{t}$ - скорость измениния величины $v$ за время $t$(ускорнеие))
+\end{remark}
+\begin{example}
+    Количество света, поглощаемое слоем воды малой толщины, пропорционально количеству падающего на него света и толщине слоя. Слой воды толщиной 35 см поглощает половину падающего на него света. Какую часть света поглотит слой толщиной в 2 м?\\
+
+    Независимая переменная $x$ - толщина слоя.
+    
+    Искомая функция $y(x)$ - количество света прошедшее через слой толщиной $x$.\\
+    
+    По условию:
+    \[y(x+\Delta{x}) - y(x) = k\Delta{x}\cdot y(x)\]
+    \[\frac{y(x+\Delta{x}) - y(x)}{\Delta{x}} = \frac{k\Delta{x}\cdot y(x)}{\Delta{x}} \Longrightarrow y'(x) = ky(x)\]
+    \[\dv{y}{x} = ky \Longrightarrow y = Ce^{kx}\]
+
+    Из условия <<Слой воды толщиной 35 см поглощает половину падающего на него света>>  имеем:
+    
+    \[y(0) = C\]
+    \[y(35)= \frac{1}{2}y(0) = \frac{1}{2}C=Ce^{35k}\]
+    \[e^{35k} = \frac{1}{2} \Longrightarrow k = -\frac{ln{2}}{35}\]
+
+    Вопрос был <<Какую часть света поглотит слой толщиной в 2 м?>>, то есть необходимо найти $y(200):$
+    \[y(200) = e^{-\frac{ln{2}}{35} \cdot 200} \approx  0,02\]
+
+    
+    Таким образом сквозь слой пройдёт $2\%$  света, то есть сам слой поглотит $98\%$ света.
+
+    
+\end{example}
+
+
+\begin{answer}
+    $98\%$
+\end{answer}
+
+\newpage
+\subsection{Однородные уравнения}
+
+Это уравнения вида
+\[y' = f\left(\frac{y}{x}\right) \qquad \text{или} \qquad M(x, y)\dx + N(x, y)\dy = 0\]
+где $M$ и $N$ однородные уравнения одной и той же степени.
+
+Чтобы их решить необходимо:
+\begin{itemize}
+\item \textbf{}Сделать замену $y=tx$(тогда верно и $\dy = x\dv{t}{} + t\dx$)
+\item \textbf{}Решить полученное уравнение с разделяющимися переменными.
+\end{itemize}
+\begin{example}
+    Решить уравнение $(x+2y)\dx - x\dy=0$
+    \smallskip
+    
+    Замена: $y = tx \qquad (\dy = x\dv{t}{} + t\dx)$
+
+    \[(x+2tx)\dx - x(t\dx+x\dv{t}{})= 0\]
+
+    \[x(t\dx+\dx-x\dv{t}{})=0\]
+
+    \[t\dx+\dx-x\dv{t}{} = 0\]
+
+    Причём $x = 0$ является решением.
+
+    \[(t+1)\dx=x\dv{t}{}\]
+
+    Причём $t = -1 \quad (y=-x)$ является решением.
+
+    \[\int\frac{\dx}{x} = \int\frac{\dv{t}{}}{t+1}\]
+
+    \[\ln{|x|} = \ln{|t+1| + \ln{C} \quad (\ln{C} \text{ тоже самое,что и } C)}\]
+
+    \[t+1 = Cx\]
+
+    \[\frac{y}{x} + 1 = Cx\]
+
+    \[y + x = Cx^2\]
+\end{example}
+\begin{answer}
+    $y + x = Cx^2; \quad x = 0$ 
+\end{answer}
+(Решение $y = -x$ уже есть в решении $y + x = Cx^2$ при $C = 0$)
+\subsubsection{Полезные замены}
+
+\begin{itemize}
+\item \textbf{}Если дифференциальное уравнение имеет вид
+
+\[y' = f\left(\frac{a_1x+b_1y+c_1}{ax+by+c}\right)\]
+
+его можно привести к однородному с помощью переноса начала координат в точку пересечения прямых
+\[a_1x+b_1y+c_1 = 0 \text{ и } ax+by+c = 0\]
+
+\begin{example}
+    Решить уравнение $(2x-4y+6)\dx + (x+y-3)\dy = 0$
+
+    \[y'=- \frac{2x-4y+6}{x+y-3}\]
+
+    Причём $x+y-3 = 0$ не является решением.
+
+    Точка пересечения $- (1, 2)$.
+    
+    Замена: $v = y-2, \, t = x-1$
+
+    \[v'=\frac{4v-2t}{t+v}\]
+
+    \[v'=\frac{4\frac{v}{t}-2}{1+\frac{v}{t}}\]
+
+    Замена: $u = \frac{v}{t}, \quad v' = u't+u$.
+
+    \[u't+u = \frac{4u-2}{u+1}\]
+
+    \[u't =\frac{4u-2-u^2-u}{u+1} = \frac{3u-2-u^2}{u+1}\]
+
+    Получили уравнение с разделяющимися переменными.
+
+    \[\dv{u}{t}t = \frac{3u-2-u^2}{u+1}\]
+
+    \[\int\frac{\dv{t}{}}{t} = -\int\frac{u+1}{(u-1)(u-2)}\dv{u}{}\]
+
+    Причём $u = 1(y =x+1)$ и $u=2(y=2x)$ решения.
+
+    \[\frac{u+1}{(u-2)(u-1)} = \frac{3}{u-2} + \frac{-2}{u-1}\]
+
+    \[-\ln{t}= 3\ln{|u-2|} - 2\ln{|u-1|} + \ln{C} \]
+
+    \[\frac{1}{t} = C\frac{(u-1)^2}{(u-2)^3}\]
+
+    Обратная замена
+
+    \[\frac{1}{t} = C\frac{(\frac{v}{t}-1)^2}{(\frac{v}{t}-2)^3}\]
+
+    \[1 = C\frac{(v-t)^2}{(v-t)^3}\]
+
+    \[(y-2x)^3 = C(y-x-1)^2\]
+
+    Причём ответ $y = 2x$ уже содержится в этом уравнении при $C=0.$
+    
+\end{example}
+\begin{answer}
+    $(y-2x)^3 = C(y-x-1)^2, \quad y =x +1.$
+\end{answer}
+
+
+\item \textbf{}Если же у прямых нет точки пересечения, (то есть $a_1x+b_1y = k(ax+by)$), то уравнение имеет вид 
+ 
+ \[y'= F(ax+by)\]
+ 
+ и приводится к уравнению с разделяющимися переменными заменой 
+ \[z = ax+by \text{(или } z = ax+by+c\text{)}\]
+
+\begin{example}
+    Решить уравнение $x-y-1 +(y-x+2)y'=0$
+
+    \[(y-x+2)y'= \]
+
+    \[y'=\frac{y-x+1}{y-x+2}\]
+
+    Причём $y-x+2=0$ не решение.
+
+    Замена: $z =y -x +2, \quad y = z +x-2, \quad y'= z'+1$
+
+    \[z'+1=\frac{z-1}{z} = 1-\frac{1}{z}\]
+
+    \[z'=-\frac{1}{z}\]
+
+    \[\dv{z}{x}= -\frac{1}{z}\]
+
+    \[\int{z}\dv{z}{} = -\int\dx\]
+
+    \[\frac{z^2}{2} = -x+C\]
+
+    \[z^2 = -2x + C\]
+
+    Обратная замена
+
+    \[(y-x+2)^2 + 2x= C\]
+\end{example}
+\begin{answer}
+    $(y-x+2)^2 + 2x= C$
+\end{answer}
+
+
+
+\item \textbf{}Некоторые уравненения можно привести к однородным заменой 
+\[y = z^m\]
+Число $m$ обычно неизвестно. Чтобы его найти, необходимо сделать замену и, требуя однородности от уравнения(сумма степеней переменных у всех слагаемых должна быть одинакова), находим $m$, если это возможно.
+
+\begin{example}
+    Решить уравнение $2x^4yy'+y^4=4x^6$
+
+    Замена: $y = z^m, \quad y' = mz^{m-1}z'$
+
+    \[2x^4mz^{2m-1}z' + z^{4m} = x^6\]
+
+    \[4 + (2m-1) = 4m = 6 \Longrightarrow m =\frac{3}{2}\]
+
+    Производим необходимую замену: $y=z^{\frac{3}{2}}$
+
+    \[3x^4z^2z' + z^6 = 4x^6\]
+
+    \[z'=\frac{4x^6-z^6}{3x^4z^2} = \frac{4x^2}{3z^2} -\frac{z^4}{3x^4} = \frac{4}{3}\left(\frac{x}{z}\right)^2-\frac{1}{3}\left(\frac{x}{z}\right)^{-4}\]
+
+    Замена: \, $z=tx, \dv{z}{} = x\dv{t}{} + t\dx \Longrightarrow \dv{z}{x} = t + x\dv{t}{x}$
+
+    \[t + x\dv{t}{x} = \frac{4}{3}t^{-2} - \frac{1}{3}t^4\]
+
+    \[x\dv{t}{x} = \frac{4}{3t^2} - \frac{t^4}{3} - t = \frac{4-t^6-3t^3}{3t^2}\]
+
+    \[3t^2x\dv{t}{} = (4-t^6-3t^3)\dx\]
+
+    \[\int\frac{3t^2}{4-t^6-3t^3}\dv{t}{} = \int\frac{\dx}{x}\]
+
+    \[\ln{|t^3+4|} - \ln{|t^3-1|} + C = 5\ln{x}\]
+
+    \[C\frac{t^3+4}{t^3-1} = x^5\]
+
+    \[C\frac{\left(\frac{z}{x}\right)^3+4}{\left(\frac{z}{x}\right)^3-1} = x^5\]
+    \[C\frac{z^3+4x^3}{z^3-x^3} = x^5\]
+
+    \[C(y^2+4x^3) = x^5(y^2-x^3)\]
+
+\end{example}
+\begin{answer}
+    $C(y^2+4x^3) = x^5(y^2-x^3)$
+\end{answer}
+
+
+ 
+\end{itemize}
+\newpage
+\subsection{Линейные уравнения первого порядка}
+
+Это уравнения вида
+
+\[y' + a(x)y = b(x)\]
+
+Чтобы решить подобное уравнение надо:
+\begin{itemize}
+\item \textbf{}Решить однородное уравнение вида
+
+\[y' + a(x)y = 0\]
+
+\item \textbf{}В общем решении заменить $C$ на неизвестную функцию $C(x)$.
+
+\item \textbf{}Полученное уравнение для $y$ подставить в исходное и найти $C(x)$.
+\end{itemize}
+\begin{example}
+    Решить уравнение $xy'-2y=2x^4$
+
+    \[y'-2\frac{y}{x} = 2x^3\]
+
+    Причём $x=0$ - не решение.
+
+    Решаем однородное уравнение $y'-2\frac{y}{x} = 0$.
+
+    \[y'=2\frac{x}{y}\]
+
+    \[\dv{y}{x} = 2\frac{y}{x}\]
+
+    \[x\dy= 2y\dx\]
+
+     \[\frac{\\dy}{y} = 2\frac{\dx}{x}\]
+
+     Причём $x=0$ и $y=0$ не являются решениями.
+
+    \[\int{\frac{\\dy}{y}} = 2\int{\frac{\dx}{x}}\]
+
+    \[\ln{y} = 2\ln{Cx}\]
+
+    \[y = Cx^2\]
+
+    \[y' = C'x^2+2Cx\]
+
+Подставляем получившиеся $y$ и $y'$ в исходное уравнение $xy'-2y=2x^4$.
+
+\[x(C'x^2+2Cx)- 2Cx^2 = 2x^4\]
+
+\[C'x^3+2Cx^2- 2Cx^2 = 2x^4\]
+
+\[C'x^3= 2x^4\]
+
+\[C'= 2x \Longrightarrow C=x^2+\tilde{C}\]
+
+Подставляем $C$ в решение однородного уравнения.
+
+\[y = Cx^2 = x^4+\tilde{C}x^2\]
+\end{example}
+\begin{answer}
+    $y= x^4+Cx^2$
+\end{answer}
+
+\subsubsection{Полезные замены}
+\begin{itemize}
+\item \textbf{}Некоторые уравнения становятся линейными, если поменять искомую функцию и независимую переменную.
+\begin{example}
+    Решить уравнение $(2x+y)\,\dy = y\,\dx+4\ln{(y)}\,\dy$.
+
+    Делим на $\dy$
+
+    \[2x+y = yx'+4\ln {y}\]
+
+    \[yx' - 2x = y - 4\ln{y}\]
+
+    Решаем однородное $yx' - 2x = 0$
+
+    \[y\dv{x}{y} = 2x\]
+
+    \[2\int{\frac{\dy}{y}} = \int{\frac{\dx}{x}}\]
+
+    \[2\ln{(Cy)} = \ln{x}\]
+
+    \[x=Cy^2\]
+
+    \[x'=C'y^2+2Cy\]
+
+    Подставляем получившиеся $x$ и $x'$ в исходное уравнение $yx' - 2x = y - 4\ln{y}$.
+
+    \[C'y^3+2Cy^2 - 2Cy^2 = -4\ln{y} +y\]
+
+    \[C'= -4\frac{\ln{y}}{y^3}+\frac{1}{y^2}\]
+
+    \[C= -4\int{\frac{\ln{y}}{y^3}}\dy+\int{\frac{1}{y^2}}\dy\]
+
+    \[C = -4(-\frac{\ln{y}}{2y^2}-\frac{1}{4y^2})-\frac{1}{y} +\tilde{C}\]
+
+    \[C = \frac{2\ln{y}}{y^2}+\frac{1}{y^2}-\frac{1}{y} +\tilde{C}\]
+
+    \[C = \frac{2\ln{y}+1-y}{y^2}+\tilde{C}\]
+
+    Подставляем $C$ в решение однородного уравнения.
+
+    \[x=2\ln{y} - y +1 + \tilde{C}y^2\]
+    
+\end{example}
+\begin{answer}
+    $x=2\ln{y} - y +1 + Cy^2$
+\end{answer}
+
+
+\item \textbf{}Уравнение Бернулли
+
+\[y'+a(x)y = b(x)y^n\]
+
+Для его решения надо:
+
+\begin{itemize}
+\item[\scriptsize\textbullet] Разделить уравнение на $y^n$.
+\item[\scriptsize\textbullet] Сделать замену $z=\frac{1}{y^{n-1}}$.
+\item[\scriptsize\textbullet] Решить полученное линейное уравнение.
+\end{itemize}
+
+\begin{example}
+    Решить пример $xy'-2x^2\sqrt{y} = 4y$.
+
+    Разделим на $\sqrt{y}$, причём $y=0$ - решение.
+
+    \[\frac{xy'}{\sqrt{y}}- 2x^2 = 4\sqrt{y}\]
+
+    Замена $z = \sqrt{y}, \quad z' = \frac{y'}{2\sqrt{y}}$
+    
+    \[2xz' - 2x^2 = 4z \quad |\cdot\frac{1}{2}\]
+
+    \[xz' - x^2 = z\]
+    \[xz' -2z = x^2\]
+
+    Решаем однородное $xz' -2z = 0$
+
+    \[xz' -2z = 0\]
+    
+    \[xz' = 2z\]
+    
+    \[x\frac{\dv{z}{}}{\dx} = 2z\]
+    
+    \[\int{\frac{\dv{z}{}}{z}}=2\int{\frac{\dx}{x}}\]
+    
+    \[\ln|z| = 2\ln|x|+\ln{C}\]
+    
+    \[z=Cx^2\]
+    
+    \[z'=C'x^2+2Cx\]
+    
+     Подставляем получившиеся $z$ и $z'$ в исходное уравнение $xz' -2z = x^2$.
+
+     \[C'x^3+2Cx^2-x^2=2Cx^2\]
+
+     \[C'x^3=x^2\]
+
+     \[C'=\frac{1}{x}\]
+
+     \[C=\ln{\tilde{C}x}\]
+     
+     Подставляем $C$ в решение однородного уравнения.
+
+     \[z = x^2\ln(Cx)\]
+
+     Обратная замена: $y = z^2$
+
+     \[y = x^4\ln^2(Cx)\]
+    
+\end{example}
+\begin{answer}
+    $y = x^4\ln^2(Cx); \quad y=0$
+\end{answer}
+
+
+\item \textbf{}Уравнение Риккати
+
+\[y' + a(x)y + b(x)y^2 = c(x)\]
+
+Для его решения надо:
+
+\begin{itemize}
+        \item[\scriptsize\textbullet] Найти частное решение $y_1(x)$.
+        \item[\scriptsize\textbullet]<<Метод пристального взгляда>>
+
+Иногда частное решение можно подобрать, внимательно посмотрев на свободный член уравнения \\(не содержащий $y$)
+
+\begin{example}
+    \[y' + y^2 = x^2 - 2x(= x(x-2))\]
+    
+    Надо брать <<подобный>> правой части $y = ax+b$
+\end{example}
+\begin{example}
+\[y' + 2y^2 = \frac{6}{x^2}\]
+
+В этом случае можно сделать замену $y = \frac{a}{x}$
+
+Производя необходимую замену, находим $a$ и $b$.
+\end{example}
+        \item[\scriptsize\textbullet] Сделать замену $y = y_1(x)+z$.
+        \item[\scriptsize\textbullet] Решить полученное уравнение Бернулли.
+\end{itemize}
+
+\begin{example}
+    Решить уравнение $y'+2ye^x-y^2= e^{2x} +e^x$
+
+    \[y'+2ye^x-y^2= e^x(e^x + 1)\]
+
+    Попробуем найти частное решение вида $y_1(x) = e^x +b$
+
+    Подставим частное решение:
+
+    \[e^x+ 2e^{2x} + 2be^x - e^{2x} - 2be^{2x}-b^2=e^{2x} +e^x\]
+
+    \[e^x+e^{2x} - b^2 =e^{2x} +e^x \Longrightarrow -b^2 = 0 \Longrightarrow b = 0\]
+
+    То есть частное решение имеет вид: $y_1(x) = e^x$
+
+    Замена: $\tilde{y} = e^x + z, \quad \tilde{y}'= e^x + z'$
+
+    \[e^x + z' + 2e^{2x} + 2ze^x - e^{2x} - 2ze^{2x}-z^2= e^{2x}+e^{x}\]
+
+    \[z' = z^2\]
+
+    \[\dv{z}{x} = z^2\]
+
+    \[\int{\frac{\dv{z}{}}{z^2}} = \int{\dx}\]
+
+    \[z = - \frac{1}{x+C}\]
+
+    Обратная замена
+
+    \[y = e^x - \frac{1}{x+C}\]
+\end{example}
+\begin{answer}
+    $y = e^x - \frac{1}{x+C}; \quad y = e^x$
+\end{answer}
+
+\end{itemize}
+\newpage
+\subsection{Уравнения в полных дифференциалах. Интегрирующий множитель}
+
+Уравнение вида:
+
+\[M(x, y)\dx + N(x, y)\dy = 0\]
+
+называется уравнением в полных дифференциалах, если его левая часть является полным дифференциалом некоторой функции $F(x, y)$, то есть:
+
+\[\pdv{M}{y} \equiv \pdv{N}{x}\]
+
+или же:
+
+\[\dv{F(x, y)}{} = F'_x\dx + F'_y\dy\]
+
+Тогда, чтобы решить данное уравнение надо:
+
+\begin{itemize}
+    \item\textbf{}Проинтегрировать по $x$ равенство $F'_x = M(x, y)$, а за константу взять некоторую неизвестную функцию $\phi{(y)}$.
+    \item\textbf{}Приравнять производную по $y$ получившегося уравнения к $F'_y$ и выразить из него функцию \\$\phi(y) = f(y) + const$.
+    \item\textbf{}Получить $F(x, y) = C$, что и будет являться ответом.
+\end{itemize}
+\begin{example}
+    Решить уравнение $(2x+3x^2y)\dx+(x^3-3y^2)\dy = 0$
+    
+\medskip
+
+    Так как $\pdv{(2x+3x^2y)}{y} = \pdv{(x^3-3y^2)}{x} = 3x^2$, то уравнение имеет вид 
+    \[\dv{F(x, y)}{} = F'_x\dx + F'_y\dy\]
+
+    Тогда 
+    \[F'_x = 2x+3x^2y, \quad F'_y = x^3-3y^2\]
+
+    \[F=\int{(2x+3x^2y)}\, \dx = x^2 + x^3y +\phi{(y)}\].
+
+    \[(x^2 + x^3y +\phi{(y)})'_y = x^3-\phi'{(y)} = x^3 - 3y^2 = F'_y\]
+
+    \[\phi'{(y)} =- 3y^2 \Longrightarrow \phi{(y)} =-y^3 +const \]
+
+    Следовательно, уравнение имеет вид:
+
+    \[x^2+x^3y - y^3 = C\]
+\end{example}
+\begin{answer}
+    $x^2+x^3y - y^3 = C$
+\end{answer}
+\bigskip
+
+Если же условие $\pdv{M}{y} \equiv \pdv{N}{x}$ не выполнено, то придётся искать интегрирующий множитель - функция $m(x, y) \not\equiv 0$, после умножения на которую должны получить уравнение в полных дифференциалах.
+
+К сожалению, нет общего метода для поиска интегрирующего множить, но есть ряд приёмов, которые помогут упростить этот процесс:
+
+\begin{itemize}
+    \item\textbf{}Применить метод выделения полных дифференциалов, используя известные формулы:
+
+    \[\dv{(xy)}{} = y\dx + x\dy, \quad \dv{(y^2)}{} = 2y\dy\]
+
+    \[\dv{\left(\frac{x}{y}\right)}{} = \frac{y\dx-x\dy}{y^2}, \quad \dv{(\ln{y})}{} = \frac{\dy}{y}\]
+    \begin{example}
+    Решить уравнение $(x^2+y^2+y)\dx - x\dy = 0$
+
+    \[(x^2+y^2)\dx + y\dx - x\dy = 0 \quad |\cdot \frac{1}{x^2+y^2}\]
+
+    \[dx + \frac{y\dx - x\dy}{x^2+y^2} = 0\]
+
+    Приняв во внимание, что $\frac{y\dx - x\dy}{x^2+y^2} = \dv{(arctg{\frac{x}{y}})}{}$, получим:
+
+    \[dx+\dv{(arctg{\frac{x}{y}})}{} = 0\]
+
+    \[\dv{(x+arctg{\frac{x}{y}})}{} = 0\]
+
+    \[x+arctg{\frac{x}{y}} = C\]
+    
+    \end{example}
+    \begin{answer}
+    $x+arctg{\frac{x}{y}} = C$
+    \end{answer}
+    \item\textbf{}Воспользоваться <<почти универсальной>> заменой:
+
+\[\mu = e^{-\int\phi(x)\dx}, \quad -\phi(x) = \frac{\pdv{M}{y} - \pdv{N}{x}}{N},\]
+
+где $\mu$ - интегрирующий множитель.
+
+\begin{remark}
+    Естественно это будет работать, когда получится функция только от $x$.
+\end{remark}
+    \begin{example}
+        Решить уравнение $(2xy+x^2y+\frac{y^3}{3})\dx +(x^2+y^2)\dy = 0 $
+
+        \[\frac{\pdv{M}{y} - \pdv{N}{x}}{N} = \frac{2x+x^2+y^2-2x}{x^2+y^2} = 1\]
+
+        \[\mu = e^{\int{1}\dx}= e^x\]
+
+        Домножим на $e^x$.
+
+        \[e^x(2xy+x^2y+\frac{y^3}{3})\dx +e^x(x^2+y^2)\dy = 0 \]
+
+        \[\int{e^x(2xy+x^2y+\frac{y^3}{3})}\dx = y\int{e^x(2x+x^2)}\dx + \frac{y^3}{3}e^x + \phi(y) = ye^x(x^2+\frac{y^3}{3}) + \phi(y)\]
+
+        \[(ye^x(x^2+\frac{y^3}{3}) + \phi(y))'_y = e^x(x^2+y^2) + \phi'(y) = e^x(x^2+y^2)\]
+
+        \[\Longrightarrow \phi'(y) = 0 \Longrightarrow \phi(y) = C\]
+
+        Таким образом, получаем:
+
+        \[ye^x(x^2+\frac{y^3}{3}) = C\]
+    \end{example}
+    \begin{answer}
+        $ye^x(x^2+\frac{y^3}{3}) = C$
+    \end{answer}
+\end{itemize}
+
+\end{document}
+ 
  
